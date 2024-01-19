@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\DTO\PostDto;
 use App\Exceptions\PostNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
@@ -47,10 +48,15 @@ class PostApiController extends Controller
             if (!$request->validated()){
                 return response()->json($request->failedValidation(), Response::HTTP_BAD_REQUEST);
             }
+
+            $postDto = new PostDto($request->all());
+
+            $post = $this->postRepository->create($postDto);
+
         } catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()]);
         }
-        $post = $this->postRepository->create($request->all());
+
         return (new PostResource($post))->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }

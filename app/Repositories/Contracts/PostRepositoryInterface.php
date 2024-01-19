@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\DTO\PostDto;
 use App\Models\Post;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 interface PostRepositoryInterface
@@ -14,22 +14,22 @@ interface PostRepositoryInterface
     public function all(): Collection;
 
     /**
-     * @param  array<int, string>  $postData
+     * @param  PostDto $postData
      * @return Post
      */
-    public function create(array $postData): Post;
+    public function create(PostDto $postData): Post;
 
     /**
      * @param  int $id
-     * @return Model
+     * @return Post
      */
-    public function findById(int $id): Model;
+    public function findById(int $id): Post;
 
     /**
      * @param  string $title
-     * @return Model
+     * @return Post
      */
-    public function findPostByTitle(string $title): Model;
+    public function findPostByTitle(string $title): Post;
 
     /**
      * @param  string $date

@@ -1,10 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use App\DTO\PostDto;
 use App\Exceptions\PostNotFoundException;
 use App\Models\Post;
 use App\Repositories\Contracts\PostRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 final class PostRepository implements PostRepositoryInterface
@@ -23,21 +23,28 @@ final class PostRepository implements PostRepositoryInterface
      *
      * @inheritDoc
      */
-    public function create(array $postData): Post
+    public function create(PostDto $postData): Post
     {
-        return Post::create($postData);
+        $data = [
+            'title' => $postData->getTitle(),
+            'description' => $postData->getDescription()
+        ];
+
+        return Post::create($data);
     }
 
     /**
      *
      * @inheritDoc
      */
-    public function findById(int $id): Model
+    public function findById(int $id): Post
     {
         $post = Post::with('comments')->find($id);
+
         if(!$post) {
             throw new PostNotFoundException('Post not found by id ' . $id);
         }
+
         return $post;
     }
 
@@ -45,7 +52,7 @@ final class PostRepository implements PostRepositoryInterface
      *
      * @inheritDoc
      */
-    public function findPostByTitle(string $title): Model
+    public function findPostByTitle(string $title): Post
     {
         $post = Post::with(['comments' => function($query){
             $query->orderBy('id', 'desc');
@@ -55,6 +62,7 @@ final class PostRepository implements PostRepositoryInterface
         if(!$post) {
             throw new PostNotFoundException('Post not found by title ' . $title);
         }
+
         return $post;
     }
 
