@@ -15,13 +15,9 @@ use Illuminate\Http\Response;
 
 class PostApiController extends Controller
 {
-
-    protected PostRepositoryInterface $postRepository;
-
     public function __construct (
-        PostRepositoryInterface $postRepository
-    ) {
-        $this->postRepository = $postRepository;
+        protected PostRepositoryInterface $postRepository
+    ){
     }
 
     /**

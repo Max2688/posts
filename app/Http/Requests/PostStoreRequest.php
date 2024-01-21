@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\DTO\PostDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostStoreRequest extends FormRequest
