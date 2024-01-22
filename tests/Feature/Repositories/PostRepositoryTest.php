@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class PostRepositoryTest extends TestCase
 {
+
     use WithFaker;
 
     public function testRepositoryCreatePost()
